@@ -40,11 +40,11 @@ class Player:
     def collision(self, side:str, dy:int=0) -> bool:
         match side:
             case "left":
-                for i in range(12):
-                    if pyxel.pget(self.x-1-self.cx, self.y+i+dy-self.cy) == 0:
+                for i in range(16):
+                    if pyxel.pget(self.x-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "right":
-                for i in range(12):
+                for i in range(16):
                     if pyxel.pget(self.x+16-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "up":
