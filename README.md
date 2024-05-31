@@ -4,7 +4,7 @@ Projet Nuit Du Code 2024. L'entièreté du travail a été developpé le 31 mai 
 ## Le jeu
 *Jeu de type plateformer et jeu de piste, non fini...*
 
-Chloey, une spéléologue et archéologue, est parti explorer sous terre. Il tombe sur des portes enfouis, et des clefs. Votre but est d'ouvrir chacune des portes ainsi que la Grande Porte, afin de sortir de ces souterrains
+Chloey, une spéléologue et archéologue, est parti explorer sous terre. Elle tombe sur des portes enfouis, et des clefs. Votre but est d'ouvrir chacune des portes ainsi que la Grande Porte, afin de sortir de ces souterrains
 
 ## Installation
 
