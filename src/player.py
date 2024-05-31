@@ -24,25 +24,49 @@ class Player:
             self.isJumping = True
             self.vy = -5
         if self.isJumping:
+            c = False
+            for i in range(16):
+                for j in range(int(self.vy)):
+                    if self.collision(self.x+i, self.y+j+16, 0):
+                        self.isJumping = False
+                        c = True
+                        break
+                if c:
+                    break
             self.vy += 0.2
             self.y += self.vy
             self.jumpTime += 1
             if self.jumpTime > 15:
                 self.isJumping = False
                 self.jumpTime = 0
+
+    def collision(self, x:int, y:int, col:int) -> bool:
+        print(x, y, pyxel.pget(x, y))
+        if pyxel.pget(x, y) == col:
+            return True
+        return False
     
     def gravity(self) -> None:
         if not self.isJumping:
             self.floor = False
-            if self.y >= 120-16:
-                self.y = 120-16
-                self.floor = True
-                self.floorTime += 1
+            for i in range(16):
+                if self.collision(self.x+i, self.y+16, 0):
+                    self.floor = True
+                    self.floorTime += 1
+                    break
         if not self.isJumping and not self.floor:
             self.vy += 0.3
-            if self.y + self.vy > 120-16:
-                self.y = 120-16
-                self.vy = 0
+            c = False
+            for i in range(16):
+                for j in range(int(self.vy)):
+                    if self.collision(self.x+i, self.y+j+16, 0):
+                        self.y += j-1
+                        self.vy = 0
+                        self.floor = True
+                        c = True
+                        break
+                if c:
+                    break
             self.y += self.vy
 
     def animate(self, v:int, maxFrame:int, fps:int, mirror:int=1) -> None:

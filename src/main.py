@@ -16,7 +16,7 @@ class App:
     def draw(self) -> None:
         pyxel.cls(1)
         pyxel.bltm(0, 0, 0, 0, 0, 512, 512, 8)
-        pyxel.rect(0, 120, 128, 8, 3)
+        pyxel.rect(0, 120, 128, 8, 0)
         pyxel.camera(self.player.x-120, self.player.y-120)
         self.player.draw()
 
