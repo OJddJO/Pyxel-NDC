@@ -12,9 +12,15 @@ class Player:
         self.isJumping = False
         self.floor = False
         self.floorTime = 0
+        #camera
+        self.cx = self.x-120
+        self.cy = self.y-120
 
     def move(self) -> None:
-        self.x += pyxel.btn(pyxel.KEY_RIGHT) - pyxel.btn(pyxel.KEY_LEFT)
+        if not self.collision("left"):
+            self.x -= pyxel.btn(pyxel.KEY_LEFT)
+        if not self.collision("right"):
+            self.x += pyxel.btn(pyxel.KEY_RIGHT)
         self.mirror = 1 if pyxel.btn(pyxel.KEY_RIGHT) else -1 if pyxel.btn(pyxel.KEY_LEFT) else self.mirror
 
     def jump(self) -> None:
@@ -34,25 +40,24 @@ class Player:
     def collision(self, side:str, dy:int=0) -> bool:
         match side:
             case "left":
-                for i in range(16):
-                    if pyxel.pget(self.x-1, self.y+i+dy) == 0:
+                for i in range(12):
+                    if pyxel.pget(self.x-1-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "right":
-                for i in range(16):
-                    if pyxel.pget(self.x+16, self.y+i+dy) == 0:
+                for i in range(12):
+                    if pyxel.pget(self.x+16-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "up":
                 for i in range(16):
-                    if pyxel.pget(self.x+i, self.y-1+dy) == 0:
+                    if pyxel.pget(self.x+i-self.cx, self.y-1+dy-self.cy) == 0:
                         return True
             case "down":
                 for i in range(16):
-                    if pyxel.pget(self.x+i, self.y+16+dy) == 0:
+                    if pyxel.pget(self.x+i-self.cx, self.y+16+dy-self.cy) == 0:
                         return True
         return False
     
     def gravity(self) -> None:
-        print(self.collision("down"))
         if not self.isJumping:
             self.floor = False
             if self.collision("down"):
@@ -99,3 +104,5 @@ class Player:
         self.gravity()
         self.jump()
         self.move()
+        self.cx, self.cy = self.x-120, self.y-120
+        pyxel.camera(self.cx, self.cy)
