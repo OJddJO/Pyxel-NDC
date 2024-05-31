@@ -24,15 +24,6 @@ class Player:
             self.isJumping = True
             self.vy = -5
         if self.isJumping:
-            c = False
-            for i in range(16):
-                for j in range(int(self.vy)):
-                    if self.collision(self.x+i, self.y+j+16, 0):
-                        self.isJumping = False
-                        c = True
-                        break
-                if c:
-                    break
             self.vy += 0.2
             self.y += self.vy
             self.jumpTime += 1
@@ -40,32 +31,39 @@ class Player:
                 self.isJumping = False
                 self.jumpTime = 0
 
-    def collision(self, x:int, y:int, col:int) -> bool:
-        print(x, y, pyxel.pget(x, y))
-        if pyxel.pget(x, y) == col:
-            return True
+    def collision(self, side:str, dy:int=0) -> bool:
+        match side:
+            case "left":
+                for i in range(16):
+                    if pyxel.pget(self.x-1, self.y+i+dy) == 0:
+                        return True
+            case "right":
+                for i in range(16):
+                    if pyxel.pget(self.x+16, self.y+i+dy) == 0:
+                        return True
+            case "up":
+                for i in range(16):
+                    if pyxel.pget(self.x+i, self.y-1+dy) == 0:
+                        return True
+            case "down":
+                for i in range(16):
+                    if pyxel.pget(self.x+i, self.y+16+dy) == 0:
+                        return True
         return False
     
     def gravity(self) -> None:
+        print(self.collision("down"))
         if not self.isJumping:
             self.floor = False
-            for i in range(16):
-                if self.collision(self.x+i, self.y+16, 0):
-                    self.floor = True
-                    self.floorTime += 1
-                    break
+            if self.collision("down"):
+                self.vy = 0
+                self.floor = True
+                self.floorTime += 1
         if not self.isJumping and not self.floor:
-            self.vy += 0.3
-            c = False
-            for i in range(16):
-                for j in range(int(self.vy)):
-                    if self.collision(self.x+i, self.y+j+16, 0):
-                        self.y += j-1
-                        self.vy = 0
-                        self.floor = True
-                        c = True
-                        break
-                if c:
+            self.vy += 0.2
+            for dy in range(int(self.vy)):
+                if self.collision("down",dy):
+                    self.vy = 0
                     break
             self.y += self.vy
 
