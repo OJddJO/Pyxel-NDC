@@ -67,8 +67,9 @@ class Player:
         if not self.isJumping and not self.floor:
             self.vy += 0.2
             for dy in range(int(self.vy)):
-                if self.collision("down",dy):
+                if self.collision("down", dy):
                     self.vy = 0
+                    self.y -= 1
                     break
             self.y += self.vy
 
