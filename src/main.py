@@ -19,6 +19,7 @@ class App:
     def draw(self) -> None:
         """Draw method for the App class."""
         pyxel.cls(1)
+        pyxel.rect(0, 120, 128, 8, 3)
         self.player.draw()
 
 if __name__ == "__main__":
