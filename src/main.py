@@ -5,7 +5,7 @@ class App:
     """Main class for the game."""
     def __init__(self) -> None:
         """Constructor for the App class."""
-        pyxel.init(128, 128 , "Title", fps=60, quit_key=pyxel.KEY_NONE)
+        pyxel.init(256, 256 , "Title", fps=60, quit_key=pyxel.KEY_NONE)
         pyxel.load("theme2.pyxres")
 
         self.player = player.Player(80, 60)

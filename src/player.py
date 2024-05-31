@@ -1,5 +1,4 @@
 import pyxel
-from math import sqrt
 
 class Player:
     def __init__(self, x:int, y:int) -> None:
@@ -25,7 +24,7 @@ class Player:
             self.vy -= 0.1
             self.y += self.vy
             self.jumpTime += 1
-            if self.jumpTime > 10:
+            if self.jumpTime > 20:
                 self.isJumping = False
                 self.jumpTime = 0
     
