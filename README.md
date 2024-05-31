@@ -9,3 +9,6 @@ Nuit Du Code
 - Installer Pyxel
 - Lancer le jeu avec la commande `python3 src/main.py` dans le dossier du code source
 
+## Commandes
+Flèches gauche/droite pour se déplacer
+Espace/flèche haut pour sauter
