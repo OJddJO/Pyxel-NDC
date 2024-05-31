@@ -16,7 +16,7 @@ class Player:
         self.x += pyxel.btn(pyxel.KEY_RIGHT) - pyxel.btn(pyxel.KEY_LEFT)
 
     def jump(self) -> None:
-        if pyxel.btnp(pyxel.KEY_UP) and self.floor:
+        if (pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.KEY_SPACE)) and self.floor:
             self.floor = False
             self.isJumping = True
             self.vy = -0.5
@@ -24,7 +24,7 @@ class Player:
             self.vy -= 0.1
             self.y += self.vy
             self.jumpTime += 1
-            if self.jumpTime > 20:
+            if self.jumpTime > 17:
                 self.isJumping = False
                 self.jumpTime = 0
     
