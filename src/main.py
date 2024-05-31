@@ -6,7 +6,7 @@ class App:
         pyxel.init(256, 256 , "Title", fps=60, quit_key=pyxel.KEY_NONE)
         pyxel.load("theme2.pyxres")
 
-        self.player = player.Player(0, 0)
+        self.player = player.Player(0, 80)
 
         pyxel.run(self.update, self.draw)
 

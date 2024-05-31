@@ -101,9 +101,9 @@ class Player:
         self.tick = self.tick + 1 if self.tick < 59 else 0
 
     def update(self) -> None:
-        self.x, self.y = int(self.x), int(self.y)
         self.gravity()
         self.jump()
         self.move()
+        self.x, self.y = round(self.x), round(self.y)
         self.cx, self.cy = self.x-120, self.y-120
         pyxel.camera(self.cx, self.cy)
