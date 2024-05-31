@@ -61,7 +61,6 @@ class Player:
         self.tick = self.tick + 1 if self.tick < 59 else 0
 
     def update(self) -> None:
-        print(self.y, self.vy)
         self.gravity()
         self.jump()
         self.move()
