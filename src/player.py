@@ -41,19 +41,19 @@ class Player:
         match side:
             case "left":
                 for i in range(16):
-                    if pyxel.pget(self.x-self.cx, self.y+i+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+1-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "right":
                 for i in range(16):
-                    if pyxel.pget(self.x+16-self.cx, self.y+i+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+15-self.cx, self.y+i+dy-self.cy) == 0:
                         return True
             case "up":
-                for i in range(16):
-                    if pyxel.pget(self.x+i-self.cx, self.y-1+dy-self.cy) == 0:
+                for i in range(12):
+                    if pyxel.pget(self.x+2+i-self.cx, self.y-1+dy-self.cy) == 0:
                         return True
             case "down":
-                for i in range(16):
-                    if pyxel.pget(self.x+i-self.cx, self.y+16+dy-self.cy) == 0:
+                for i in range(12):
+                    if pyxel.pget(self.x+2+i-self.cx, self.y+16+dy-self.cy) == 0:
                         return True
         return False
     
@@ -69,9 +69,9 @@ class Player:
             for dy in range(int(self.vy)):
                 if self.collision("down", dy):
                     self.vy = 0
-                    self.y -= 1
+                    self.y += dy-1
                     break
-            self.y += self.vy
+            self.y += self.vy if self.vy < 10 else 10
 
     def animate(self, v:int, maxFrame:int, fps:int, mirror:int=1) -> None:
         """v: row of the sprite sheet, maxFrame: number of frames in the row from 0, fps: frames per second"""
@@ -102,9 +102,11 @@ class Player:
         self.tick = self.tick + 1 if self.tick < 59 else 0
 
     def update(self) -> None:
-        self.gravity()
+        self.x, self.y = int(self.x), int(self.y)
         self.jump()
         self.move()
-        self.x, self.y = round(self.x), round(self.y)
+        self.x, self.y = int(self.x), int(self.y)
+        self.gravity()
+        self.x, self.y = int(self.x), int(self.y)
         self.cx, self.cy = self.x-120, self.y-120
         pyxel.camera(self.cx, self.cy)
