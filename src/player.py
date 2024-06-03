@@ -31,6 +31,11 @@ class Player:
             self.vy = -5
         if self.isJumping:
             self.vy += 0.2
+            for dy in range(int(abs(self.vy))):
+                if self.collision("up", dy):
+                    self.vy = 0
+                    self.y += dy
+                    break
             self.y += self.vy
             self.jumpTime += 1
             if self.jumpTime > 15:
@@ -49,7 +54,7 @@ class Player:
                         return True
             case "up":
                 for i in range(12):
-                    if pyxel.pget(self.x+2+i-self.cx, self.y-1+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+2+i-self.cx, self.y-1-dy-self.cy) == 0:
                         return True
             case "down":
                 for i in range(12):
@@ -105,7 +110,7 @@ class Player:
         self.x, self.y = int(self.x), int(self.y)
         self.jump()
         self.move()
-        self.x, self.y = int(self.x), int(self.y)
+        # self.x, self.y = int(self.x), int(self.y)
         self.gravity()
         self.x, self.y = int(self.x), int(self.y)
         self.cx, self.cy = self.x-120, self.y-120
