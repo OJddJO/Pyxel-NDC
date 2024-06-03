@@ -42,6 +42,15 @@ class Player:
                 self.isJumping = False
                 self.jumpTime = 0
 
+    def goDown(self) -> None:
+        if pyxel.btn(pyxel.KEY_DOWN) and self.floor:
+            for i in range(12):
+                if pyxel.pget(self.x+2+i-self.cx, self.y+16-self.cy) != 0:
+                    self.y += 1
+                    self.floor = False
+                    self.floorTime = 0
+                    self.vy = 2
+
     def collision(self, side:str, dy:int=0) -> bool:
         match side:
             case "left":
@@ -109,6 +118,7 @@ class Player:
     def update(self) -> None:
         self.jump()
         self.move()
+        self.goDown()
         self.gravity()
         self.x, self.y = int(self.x), int(self.y)
         self.cx, self.cy = self.x-120, self.y-120
