@@ -58,7 +58,7 @@ class Player:
                         return True
             case "down":
                 for i in range(12):
-                    if pyxel.pget(self.x+2+i-self.cx, self.y+16+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+2+i-self.cx, self.y+16+dy-self.cy) in [0, 4]:
                         return True
         return False
     
@@ -107,10 +107,8 @@ class Player:
         self.tick = self.tick + 1 if self.tick < 59 else 0
 
     def update(self) -> None:
-        self.x, self.y = int(self.x), int(self.y)
         self.jump()
         self.move()
-        # self.x, self.y = int(self.x), int(self.y)
         self.gravity()
         self.x, self.y = int(self.x), int(self.y)
         self.cx, self.cy = self.x-120, self.y-120
