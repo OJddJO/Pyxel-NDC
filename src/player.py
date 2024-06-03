@@ -15,13 +15,27 @@ class Player:
         #camera
         self.cx = self.x-120
         self.cy = self.y-120
+        self.cpx = 0 #camera parallax x
+        self.cpy = 0 #camera parallax y
 
     def move(self) -> None:
-        if not self.collision("left"):
-            self.x -= pyxel.btn(pyxel.KEY_LEFT)
-        if not self.collision("right"):
-            self.x += pyxel.btn(pyxel.KEY_RIGHT)
+        input = pyxel.btn(pyxel.KEY_RIGHT) - pyxel.btn(pyxel.KEY_LEFT)
+        if input == 0:
+            self.cameraParallaxReset()
+        if not self.collision("left") and input == -1:
+            self.x -= 1
+            self.cpx -= 1 if self.cpx > -10 else 0
+        if not self.collision("right") and input == 1:
+            self.x += 1
+            self.cpx += 1 if self.cpx < 10 else 0
+        
         self.mirror = 1 if pyxel.btn(pyxel.KEY_RIGHT) else -1 if pyxel.btn(pyxel.KEY_LEFT) else self.mirror
+
+    def cameraParallaxReset(self) -> None:
+        if self.cpx != 0:
+            sign = 1 if self.cpx > 0 else -1
+            if not (pyxel.btnp(pyxel.KEY_LEFT) or pyxel.btnp(pyxel.KEY_RIGHT)):
+                self.cpx -= sign
 
     def jump(self) -> None:
         if (pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.KEY_SPACE)) and self.floor:
@@ -55,19 +69,19 @@ class Player:
         match side:
             case "left":
                 for i in range(16):
-                    if pyxel.pget(self.x+1-self.cx, self.y+i+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+1-self.cx-self.cpx, self.y+i+dy-self.cy) == 0:
                         return True
             case "right":
                 for i in range(16):
-                    if pyxel.pget(self.x+15-self.cx, self.y+i+dy-self.cy) == 0:
+                    if pyxel.pget(self.x+15-self.cx-self.cpx, self.y+i+dy-self.cy) == 0:
                         return True
             case "up":
                 for i in range(12):
-                    if pyxel.pget(self.x+2+i-self.cx, self.y-1-dy-self.cy) == 0:
+                    if pyxel.pget(self.x+2+i-self.cx-self.cpx, self.y-1-dy-self.cy) == 0:
                         return True
             case "down":
                 for i in range(12):
-                    if pyxel.pget(self.x+2+i-self.cx, self.y+16+dy-self.cy) in [0, 4]:
+                    if pyxel.pget(self.x+2+i-self.cx-self.cpx, self.y+16+dy-self.cy) in [0, 4]:
                         return True
         return False
     
@@ -122,4 +136,4 @@ class Player:
         self.gravity()
         self.x, self.y = int(self.x), int(self.y)
         self.cx, self.cy = self.x-120, self.y-120
-        pyxel.camera(self.cx, self.cy)
+        pyxel.camera(self.cx+self.cpx, self.cy)
