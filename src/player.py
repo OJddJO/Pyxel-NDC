@@ -16,7 +16,6 @@ class Player:
         self.cx = self.x-120
         self.cy = self.y-120
         self.cpx = 0 #camera parallax x
-        self.cpy = 0 #camera parallax y
 
     def move(self) -> None:
         input = pyxel.btn(pyxel.KEY_RIGHT) - pyxel.btn(pyxel.KEY_LEFT)
